@@ -1,0 +1,13 @@
+backend/venv/
+backend/__pycache__/
+backend/db.sqlite3
+backend/*.pyc
+backend/.env
+
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+__pycache__/
+.vscode/
+.idea/
