@@ -11,6 +11,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
     
 class Tag(models.Model):
     name=models.CharField(max_length=50)
@@ -58,7 +61,7 @@ class Task(models.Model):
         related_name='tasks'
     )
 
-    category=models.ForeignKey(
+    category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
         null=True,
@@ -66,7 +69,7 @@ class Task(models.Model):
         related_name='tasks'
     )
 
-    tags=models.ManyToManyField(
+    tags = models.ManyToManyField(
         Tag,
         blank=True,
         related_name='tasks'
