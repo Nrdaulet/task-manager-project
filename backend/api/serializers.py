@@ -19,14 +19,17 @@ class TaskSerializer(serializers.ModelSerializer):
     'priority',
     'due_date',
     'created_at',
-    'user',
     'category',
     'tags',
-]
+
+    ]
+    read_only_fields = ['user']
+        
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
+        
 
 class TaskCommentSerializer(serializers.ModelSerializer):
     class Meta:

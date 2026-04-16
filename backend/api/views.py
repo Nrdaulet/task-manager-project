@@ -44,7 +44,7 @@ class TaskAPIDetail(APIView):
         try:
             return Task.objects.get(pk=pk, user=user)
         except Task.DoesNotExist:
-            raise None
+            return None
     def put(self, request, pk):
         object=self.get_object
         
