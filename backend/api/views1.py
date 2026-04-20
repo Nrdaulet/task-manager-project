@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.views import APIView
@@ -73,3 +74,18 @@ class TaskDetailAPI(APIView):
             return Response({'error':'Task is not found'}, status=status.HTTP_404_NOT_FOUND)
         task.delete()
         return Response({"message":'Task deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+    
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data['refresh'] 
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response({'message': 'Logged out successfully'}, status=200)
+        except Exception:
+            return Response({'error':'Invalid token'}, status=400)
