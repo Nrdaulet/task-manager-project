@@ -1,0 +1,67 @@
+<div class="detail-wrapper">
+  <div class="loading" *ngIf="loading">Loading...</div>
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && task">
+    <div class="back-link">
+      <a routerLink="/tasks">← Back to Tasks</a>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-header">
+        <h1>{{ task.title }}</h1>
+        <div class="badges">
+          <span class="badge" [ngClass]="getPriorityClass(task.priority)">
+            {{ task.priority }}
+          </span>
+          <span class="badge" [ngClass]="getStatusClass(task.status)">
+            {{ task.status | titlecase }}
+          </span>
+        </div>
+      </div>
+
+      <p class="description">{{ task.description || 'No description provided.' }}</p>
+
+      <div class="meta">
+        <div class="meta-item" *ngIf="task.due_date">
+          <span class="meta-label">Due Date</span>
+          <span>{{ task.due_date }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Created</span>
+          <span>{{ task.created_at | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <a [routerLink]="['/tasks', task.id, 'edit']" class="btn-edit">Edit Task</a>
+        <button class="btn-delete" (click)="deleteTask()">Delete Task</button>
+      </div>
+      <!-- Comments -->
+      <div class="comments-section">
+        <h2>Comments</h2>
+
+        <div class="comment-form">
+    <textarea
+      [(ngModel)]="newCommentText"
+      placeholder="Write a comment..."
+      rows="3"
+    ></textarea>
+          <button class="btn-primary" (click)="addComment()">Add Comment</button>
+        </div>
+
+        <div class="empty-comments" *ngIf="comments.length === 0">
+          <p>No comments yet.</p>
+        </div>
+
+        <div class="comment-card" *ngFor="let comment of comments">
+          <div class="comment-body">
+            <p>{{ comment.text }}</p>
+            <span class="comment-date">{{ comment.created_at | date:'mediumDate' }}</span>
+          </div>
+          <button class="btn-delete-comment" (click)="deleteComment(comment.id)">✕</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

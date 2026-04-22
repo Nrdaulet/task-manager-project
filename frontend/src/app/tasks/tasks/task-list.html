@@ -1,0 +1,54 @@
+<div class="task-list-wrapper">
+  <header class="header">
+    <h1>My Tasks</h1>
+    <div class="header-actions">
+      <a routerLink="/tasks/new" class="btn-primary">+ New Task</a>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+
+
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+
+  <div class="loading" *ngIf="loading">Loading tasks...</div>
+
+  <div class="empty-state" *ngIf="!loading && tasks.length === 0">
+    <p>No tasks yet. Create your first task!</p>
+    <a routerLink="/tasks/new" class="btn-primary">+ New Task</a>
+  </div>
+
+  <div class="tasks-grid" *ngIf="!loading && tasks.length > 0">
+    <div
+      class="task-card"
+      *ngFor="let task of tasks"
+      [routerLink]="['/tasks', task.id]"
+    >
+      <div class="task-card-header">
+        <span class="task-title">{{ task.title }}</span>
+        <span class="badge" [ngClass]="getPriorityClass(task.priority)">
+          {{ task.priority }}
+        </span>
+      </div>
+
+      <p class="task-description">{{ task.description || 'No description' }}</p>
+
+      <div class="task-card-footer">
+        <span class="badge" [ngClass]="getStatusClass(task.status)">
+          {{ task.status | titlecase }}
+        </span>
+        <span class="due-date" *ngIf="task.due_date">
+          📅 {{ task.due_date }}
+        </span>
+        <div class="task-actions">
+          <a
+            [routerLink]="['/tasks', task.id, 'edit']"
+            class="btn-edit"
+            (click)="$event.stopPropagation()"
+          >Edit</a>
+          <button class="btn-delete" (click)="deleteTask(task.id, $event)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
